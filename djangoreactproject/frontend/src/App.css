@@ -1,0 +1,35 @@
+.App{
+    background-color: darkorchid;
+    height: 100vh;
+}
+
+.AppSecond{
+    background-color: blue;
+    min-height: 300px;
+    border-bottom: darkblue 1px solid;
+}
+
+.AppAnimation {
+    max-height: 1vh;
+    transition: min-height 2s ease;
+}
+
+.mainSearch{
+    margin-top: 20px;
+}
+
+.mainSearchSecond{
+    margin-top: 50px;
+}
+
+.ticketPost{
+    border: 1px black solid;
+    border-radius: 20px;
+    width: 70%;
+    margin: 15px auto;
+    background-color: white;
+}
+
+.mainFon{
+    background-color: #F5F5F5;
+}

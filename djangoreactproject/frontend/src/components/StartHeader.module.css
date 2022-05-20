@@ -1,0 +1,14 @@
+.textDecor{
+    text-align: center;
+    color: white;
+    font-family: Arial;
+}
+
+.mainText{
+    font-size: 80px;
+    margin-top: 150px;
+}
+
+.lastText{
+    font-size: 40px;
+}

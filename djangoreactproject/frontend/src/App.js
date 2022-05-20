@@ -4,6 +4,7 @@ import Search from "./components/Search";
 import StartHeader from "./components/StartHeader";
 import React, {useState} from "react";
 import TicketList from "./components/TicketList";
+import axios from 'axios';
 
 
 
@@ -25,15 +26,42 @@ function App() {
         setStyles('mainSearchSecond')
     }
 
+    function Yolo(){
+        const API_URL = 'http://localhost:8000';
+        const url = `${API_URL}/api/tickets/`;
+        let startVal = document.querySelector('.inpStartVal').value
+        let finishVal = document.querySelector('.inpFinishVal').value
+        let dateVal = document.querySelector('.inpDateVal').value
+        dateVal = dateVal.substr(8,2) + dateVal.substr(5,2)
+        let mas = []
+        axios.post(url,{start: startVal, finish: finishVal, date: dateVal})
+            .then(response => {
+
+                setTickets([])
+
+                mas = []
+                response.data.data.forEach((item, index) => {
+
+
+                    mas.push({id: index, ...item, date: dateVal})
+
+                })
+                console.log(mas)
+                setTickets(mas)
+                console.log(tickets)
+            });
+        changeCheck(true)
+        setStyles('mainSearchSecond')
+    }
 
 
 
   return (
       <div className="mainFon">
-        <div className={"App"} >
+        <div className={checkBtn? 'AppSecond':"App"} >
             <Navbar/>
             {checkBtn? '' :<StartHeader/>}
-            <Search changeFunction={checkPressMane} className={styles}/>
+            <Search changeFunction={Yolo} className={styles}/>
         </div>
           {checkBtn?<TicketList tickets={tickets}/>: ''}
       </div>

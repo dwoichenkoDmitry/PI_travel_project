@@ -4,7 +4,7 @@
 }
 
 .AppSecond{
-    background-color: blue;
+    background-color: darkorchid;
     min-height: 300px;
     border-bottom: darkblue 1px solid;
 }
@@ -19,7 +19,7 @@
 }
 
 .mainSearchSecond{
-    margin-top: 50px;
+    margin-top: 65px;
 }
 
 .ticketPost{

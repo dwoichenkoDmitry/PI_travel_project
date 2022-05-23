@@ -6,13 +6,15 @@ import Profile from './img/man-avatar.png'
 
 
 const Navbar = ({props, funk}) => {
-
+function openProfile(){
+    funk(false)
+}
     return (
         <div className={classes.header}>
             <a href="#"><img src={Logo} className={classes.logoImg} alt="logo"/></a>
             <p className={classes.textDecor}>FASTER CHEAPEST BETTER</p>
 
-            <div className={classes.profileContainer}>
+            <div onClick={openProfile} className={classes.profileContainer}>
                 <img className={classes.logoImg} src={Profile} alt=""/>
                 {/*<p className={classes.profileText}>Профиль</p>*/}
             </div>

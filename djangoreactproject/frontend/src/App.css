@@ -1,12 +1,11 @@
 .App{
-    background-color: darkorchid;
+    background-color: mediumpurple;
     height: 100vh;
 }
 
 .AppSecond{
-    background-color: darkorchid;
+    background-color: mediumpurple;
     min-height: 300px;
-    border-bottom: darkblue 1px solid;
 }
 
 .AppAnimation {
@@ -31,5 +30,6 @@
 }
 
 .mainFon{
-    background-color: #F5F5F5;
+    background-color: mediumpurple;
 }
+

@@ -5,6 +5,7 @@ import StartHeader from "./components/StartHeader";
 import React, {useState} from "react";
 import TicketList from "./components/TicketList";
 import axios from 'axios';
+import Profile from "./components/Profile";
 
 
 
@@ -13,14 +14,15 @@ import axios from 'axios';
 function App() {
 
     const [tickets, setTickets] =  useState([
-        {id: 1, start: 'Тюмень', finish: 'Москва', date: '13.05.2022', price: '5700 руб.'},
-        {id: 2, start: 'Тюмень', finish: 'Москва', date: '14.05.2022', price: '5700 руб.'},
-        {id: 3, start: 'Тюмень', finish: 'Москва', date: '15.05.2022', price: '5700 руб.'},
-        {id: 3, start: 'Тюмень', finish: 'Москва', date: '15.05.2022', price: '5700 руб.'},
-        {id: 3, start: 'Тюм', finish: 'Мо', date: '15.05.2022', price: '5700 руб.'}
+        {id: 1, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'},
+        {id: 2, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'},
+        {id: 3, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'},
+        {id: 3, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'},
+        {id: 3, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'}
     ])
     const [checkBtn, changeCheck] = useState(false);
     const [styles, setStyles] = useState('mainSearch')
+    const [checkProfile, changeProfile] = useState(true)
     function checkPressMane(){
         changeCheck(true)
         setStyles('mainSearchSecond')
@@ -59,7 +61,8 @@ function App() {
   return (
       <div className="mainFon">
         <div className={checkBtn? 'AppSecond':"App"} >
-            <Navbar/>
+            <Profile/>
+            <Navbar funk={changeProfile}/>
             {checkBtn? '' :<StartHeader/>}
             <Search changeFunction={Yolo} className={styles}/>
         </div>

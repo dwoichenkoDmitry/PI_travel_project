@@ -5,7 +5,10 @@ import StartHeader from "./components/StartHeader";
 import React, {useState} from "react";
 import TicketList from "./components/TicketList";
 import axios from 'axios';
+import Registration from "./components/Registration";
 import Profile from "./components/Profile";
+import SignUp from "./components/SignUp";
+import Preloader from "./components/Preloader";
 
 
 
@@ -13,20 +16,24 @@ import Profile from "./components/Profile";
 
 function App() {
 
-    const [tickets, setTickets] =  useState([
-        {id: 1, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'},
-        {id: 2, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'},
-        {id: 3, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'},
-        {id: 3, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'},
-        {id: 3, start: 'TMN', finish: 'MSK', dateStart: '13.05', dateFinish: '14.05', price: '5700 руб.', timeStart: '12:00', timeFinish: '14:00'}
-    ])
+    const [tickets, setTickets] =  useState([])
     const [checkBtn, changeCheck] = useState(false);
     const [styles, setStyles] = useState('mainSearch')
-    const [checkProfile, changeProfile] = useState(true)
+    const [openRegister, setOpenRegister] = useState(false)
+    const [openSignUp, setOpenSignUp] = useState(false)
+    const [haveUser, setHaveUser] = useState(false)
+    const [openProfile, setOpenProfile] = useState(false)
+    const [savedTicket, setSavedTicket] = useState([])
+    const [login, setLogin] = useState('')
+    const [mail, setMail] = useState('')
+    const [showPreloader, setPreloader] = useState(false)
+
     function checkPressMane(){
         changeCheck(true)
         setStyles('mainSearchSecond')
     }
+
+
 
     function Yolo(){
         const API_URL = 'http://localhost:8000';
@@ -35,6 +42,7 @@ function App() {
         let finishVal = document.querySelector('.inpFinishVal').value
         let dateVal = document.querySelector('.inpDateVal').value
         dateVal = dateVal.substr(8,2) + dateVal.substr(5,2)
+        console.log(dateVal)
         let mas = []
         axios.post(url,{start: startVal, finish: finishVal, date: dateVal})
             .then(response => {
@@ -43,30 +51,76 @@ function App() {
 
                 mas = []
                 response.data.data.forEach((item, index) => {
-
-
-                    mas.push({id: index, ...item, date: dateVal})
-
+                    mas.push({id: index, start: startVal, finish: finishVal,
+                        dateStart: item.startDate, dateFinish: item.finishDate, price: item.price,
+                        timeStart: item.startTime, timeFinish: item.finishTime, link: item.link})
                 })
                 console.log(mas)
                 setTickets(mas)
-                console.log(tickets)
+
             });
-        changeCheck(true)
+        setPreloader(true)
+        console.log(showPreloader)
+        setTimeout(()=>{
+            setPreloader(false)
+                changeCheck(true)
+        }
+        ,30000)
+
         setStyles('mainSearchSecond')
     }
 
 
 
+
+    function getSavedTicketsFromLogin(login){
+        const API_URL = 'http://localhost:8000';
+        const url = `${API_URL}/api/savedTicket/${login}/`;
+        axios.get(url).then(response=>{
+            setSavedTicket([])
+            let mas = []
+            response.data.items.forEach((item, index) => {
+                mas.push({id: index, start: item.start, finish: item.finish, dateStart: item.dateStart, dateFinish: item.dateFinish,
+                    price: item.price, timeStart: item.timeStart, timeFinish: item.timeFinish, link: item.link})
+            })
+
+            setSavedTicket(mas)
+        })
+    }
+
   return (
       <div className="mainFon">
+          {showPreloader?
+              <Preloader/>
+              :
+              ''
+          }
+          {openProfile?
+              <Profile savedTickets={savedTicket} funcShowProfile={setOpenProfile} login={login} mail={mail}/>
+              :
+              ''
+
+          }
         <div className={checkBtn? 'AppSecond':"App"} >
-            <Profile/>
-            <Navbar funk={changeProfile}/>
+            <Navbar checkHaveUser={haveUser} funkShowReg={setOpenRegister} funkShowSign={setOpenSignUp}
+                    funcShowProfile={setOpenProfile}/>
+            {openRegister?
+                <Registration setLogin={setLogin} setMail={setMail} funcClosed={setOpenRegister} haveUser={setHaveUser}/>
+                :
+                ''
+            }
+            {openSignUp?
+                <SignUp closedSign2={setOpenSignUp} changeLogin={setLogin}
+                        changeMail={setMail} haveUser={setHaveUser} fillTicketsUser={getSavedTicketsFromLogin}/>
+                :
+                ''
+            }
+
             {checkBtn? '' :<StartHeader/>}
             <Search changeFunction={Yolo} className={styles}/>
+
         </div>
-          {checkBtn?<TicketList tickets={tickets}/>: ''}
+          {checkBtn?<TicketList fillTicketsUser={getSavedTicketsFromLogin} autorized={haveUser} login={login} tickets={tickets}/>: ''}
       </div>
   );
 }

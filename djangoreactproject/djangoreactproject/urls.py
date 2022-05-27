@@ -18,11 +18,14 @@ from django.urls import path
 from tickets import views
 from django.urls import include, re_path
 from users import views as vi
+from savedTickets import views as ticketv
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path('api/tickets/', views.tickets_list),
     re_path('api/users/', vi.customers_list),
-    re_path('api/users/<string:login>', vi.customers_detail),
+    path('api/user/<str:login>/<str:password>', vi.customers_detail),
+    re_path('api/savedTickets/', ticketv.ticket_create),
+    path('api/savedTicket/<str:login>/', ticketv.get_user_tickets),
 ]

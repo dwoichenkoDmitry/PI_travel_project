@@ -1,18 +1,21 @@
 .text{
     color: indigo;
-    position: absolute;
+    position: fixed;
     width: 45%;
-    height: 100vh;
+    height: 100%;
     background-color: whitesmoke;
     left: 55%;
-    top: 90px;
+    overflow:scroll;
+
+    padding-bottom: 50rem;
     box-shadow: -7px 0 8px -5px rebeccapurple;
+
 }
 
 .aboutBlock{
     background-color: mediumpurple;
     width: 80%;
-    height: 100px;
+    padding: 5px 0;
     margin-left: 10%;
     color: white;
 }
@@ -23,4 +26,8 @@
     height: 80px;
     margin-left: 10%;
     color: white;
+}
+
+.moveBlock{
+    margin-left: 15px;
 }

@@ -34,3 +34,13 @@
     font-weight: bold;
     color:rebeccapurple;
 }
+
+.signUpBtns *{
+    display: inline-block;
+    margin-right: 25px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: indigo;
+    cursor: pointer;
+    font-size: 17px;
+}

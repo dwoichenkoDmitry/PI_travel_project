@@ -1,11 +1,11 @@
 import React from 'react';
 import TicketItem from "./TicketItem";
 
-const TicketList = (props) => {
+const TicketList = ({tickets, login, autorized, fillTicketsUser}) => {
     return (
         <div>
-            {props.tickets.map((ticket, index) =>
-                <TicketItem ticket={ticket} key={ticket.id}/>
+            {tickets.map((ticket, index) =>
+                <TicketItem ticket={ticket} autorized={autorized} fillTicketsUser={fillTicketsUser} login={login}/>
             )}
         </div>
     );

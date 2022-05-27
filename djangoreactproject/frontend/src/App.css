@@ -1,11 +1,13 @@
 .App{
     background-color: mediumpurple;
     height: 100vh;
+
 }
 
 .AppSecond{
     background-color: mediumpurple;
     min-height: 300px;
+
 }
 
 .AppAnimation {
@@ -33,3 +35,64 @@
     background-color: mediumpurple;
 }
 
+.registerWindow{
+    width: 40%;
+    height: 250px;
+    position: fixed;
+    left: 30%;
+    top: 200px;
+    border-radius: 10px;
+    background-color: rebeccapurple;
+    box-shadow: -7px 0 8px -5px rebeccapurple;
+}
+
+.registerWindow input{
+    height: 30px;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+}
+
+.registerWindow button{
+    height: 30px;
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 35px;
+    background-color: white;
+    color:indigo;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.registerWindow button:hover{
+    background-color: deeppink;
+    color: white;
+}
+
+.registerFon{
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background-color: rgba(0,0,0,0.3);
+
+}
+
+.preload{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: gray;
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.preload img{
+    width: 100px;
+}

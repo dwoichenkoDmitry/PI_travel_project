@@ -2,6 +2,10 @@ import React, {useEffect, useRef, useState} from 'react';
 import axios from "axios";
 
 const SignUp = ({closedSign2, haveUser, changeLogin, changeMail, fillTicketsUser}) => {
+    /**
+     * Функция закрытия формы авторизации при клике вне формы
+     * @param ref
+     */
     function useOutsideAlerter(ref) {
         useEffect(() => {
             /**
@@ -25,6 +29,9 @@ const SignUp = ({closedSign2, haveUser, changeLogin, changeMail, fillTicketsUser
         closedSign2(false)
     }
 
+    /**
+     * Функция авторизации пользователя
+     */
     function signUp(){
         let login = document.querySelector('.login').value
         let password = document.querySelector('.password').value

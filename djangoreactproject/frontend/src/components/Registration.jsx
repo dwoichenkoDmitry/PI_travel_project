@@ -4,6 +4,10 @@ import axios from "axios";
 
 
 const Registration = ({funcClosed, haveUser, setLogin, setMail}) => {
+    /**
+     * Функция закрытия окна регистрации при клике вне формы
+     * @param ref
+     */
     function useOutsideAlerter(ref) {
         useEffect(() => {
             /**
@@ -27,6 +31,10 @@ const Registration = ({funcClosed, haveUser, setLogin, setMail}) => {
         funcClosed(false)
     }
 
+    /**
+     * Функция регистрации
+     * @returns {Promise<void>}
+     */
     async function register() {
         const API_URL = 'http://localhost:8000';
         const url = `${API_URL}/api/users/`;

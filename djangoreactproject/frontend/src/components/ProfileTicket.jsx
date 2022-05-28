@@ -4,7 +4,7 @@ const ProfileTicket = (props) => {
     return (
         <div className={classes.container}>
             <div>
-                <p>{props.ticket.start}</p>
+                <p>{props.ticket.start} </p>
                 <p>{props.ticket.dateStart}</p>
                 <p>{props.ticket.timeStart}</p>
             </div>
@@ -20,7 +20,7 @@ const ProfileTicket = (props) => {
                 <p>{props.ticket.timeFinish}</p>
             </div>
             <div>
-                <a className={classes.aHref} href={props.ticket.link}>Go</a>
+                <a className={classes.aHref} href={props.ticket.link}>Источник</a>
             </div>
         </div>
     );

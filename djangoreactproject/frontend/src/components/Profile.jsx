@@ -3,8 +3,11 @@ import classes from "./Profile.module.css";
 import TicketItem from "./TicketItem";
 import ProfileTicket from "./ProfileTicket";
 
-const Profile = ({savedTickets,funcShowProfile, login, mail}) => {
-
+const Profile = ({savedTickets, haveUser, funcShowProfile, login, mail}) => {
+    /**
+     * функция закрытия профиля по клику вне формы
+     * @param ref
+     */
     function useOutsideAlerter(ref) {
         useEffect(() => {
             /**
@@ -25,13 +28,21 @@ const Profile = ({savedTickets,funcShowProfile, login, mail}) => {
     }
 
 
+    function exitUser() {
+        haveUser(false)
+        funcShowProfile(false)
+    }
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
 
     return (
         <div ref={wrapperRef} className="ProfilePage" className={classes.text}>
-            <h1 className={classes.moveBlock}>О Вас:</h1>
+            <div className={classes.headerText}>
+                <h1 className={classes.moveBlock}>О Вас:</h1>
+                <h4 onClick={exitUser} className={classes.exitText}>Выход</h4>
+            </div>
+
             <div className={classes.aboutBlock}>
                 <p>Ваш логин: {login}</p>
                 <p>Ваша почта: {mail}</p>
@@ -39,7 +50,12 @@ const Profile = ({savedTickets,funcShowProfile, login, mail}) => {
 
             <h1 className={classes.moveBlock}>Избранные маршруты:</h1>
             <div>
-                {savedTickets.map((ticket, index) =>
+                <h2 className={classes.typeText}>Самолёты</h2>
+                {savedTickets.filter(item => item.dateStart.length !== 10).map((ticket, index) =>
+                    <ProfileTicket ticket={ticket} key={index}/>
+                )}
+                <h2 className={classes.typeText}>Поезда</h2>
+                {savedTickets.filter(item => item.dateStart.length === 10).map((ticket, index) =>
                     <ProfileTicket ticket={ticket} key={index}/>
                 )}
 

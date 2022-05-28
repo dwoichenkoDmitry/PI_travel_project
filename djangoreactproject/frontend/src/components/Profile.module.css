@@ -31,3 +31,21 @@
 .moveBlock{
     margin-left: 15px;
 }
+.headerText{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.aboutBlock *{
+    margin-left: 10px;
+}
+
+.exitText{
+    margin-right: 25px;
+    cursor: pointer;
+}
+
+.typeText{
+    text-align: center;
+}

@@ -96,3 +96,8 @@
 .preload img{
     width: 100px;
 }
+
+
+.TicketList{
+    border-radius: 10px;
+}

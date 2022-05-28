@@ -1,11 +1,11 @@
 import React from 'react';
 import TicketItem from "./TicketItem";
 
-const TicketList = ({tickets, login, autorized, fillTicketsUser}) => {
+const TicketList = ({tickets, savedTicket, login, autorized, fillTicketsUser}) => {
     return (
-        <div>
+        <div className="TicketList">
             {tickets.map((ticket, index) =>
-                <TicketItem ticket={ticket} autorized={autorized} fillTicketsUser={fillTicketsUser} login={login}/>
+                <TicketItem savedTicket={savedTicket} ticket={ticket} autorized={autorized} fillTicketsUser={fillTicketsUser} login={login}/>
             )}
         </div>
     );

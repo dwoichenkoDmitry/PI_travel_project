@@ -4,6 +4,7 @@ from .models import savedTickets
 from rest_framework.decorators import api_view
 # Create your views here.
 
+#api сохранения билета
 @api_view(['POST'])
 def ticket_create(request):
     if request.method == 'POST':
@@ -15,7 +16,7 @@ def ticket_create(request):
         savedTicket.save()
         return Response({'data': "saved"}, status=status.HTTP_201_CREATED)
 
-
+#api получения билетов пользователя
 @api_view(['GET'])
 def get_user_tickets(request, login):
     try:

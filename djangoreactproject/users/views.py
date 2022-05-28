@@ -8,7 +8,7 @@ from .serializers import *
 from django.contrib.auth.models import User
 
 
-
+#api добавления пользователя
 @api_view(['POST'])
 def customers_list(request):
     if request.method == 'POST':
@@ -19,6 +19,7 @@ def customers_list(request):
         user.save()
         return Response({'data': user}, status=status.HTTP_201_CREATED)
 
+#api получения пользователя по логину и паролю
 @api_view(['GET'])
 def customers_detail(request, login, password):
     try:

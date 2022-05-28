@@ -11,17 +11,16 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Tickets
 from .serializers import *
 
-
+#api парсинг билетов
 @api_view(['GET', 'POST'])
 def tickets_list(request):
-    data_ret = []
-    serializer = CustomerSerializer(data=request.data)
-
+    #билеты aviasales
     mas = getTicketsAvia(f"{request.data['start']}", f"{request.data['finish']}", f"{request.data['date']}")
-    #mas2 = getTicketsTrain(f"{request.data['start']}", f"{request.data['finish']}", f"{request.data['date']}")
+    #билеты rzd
+    mas2 = getTicketsTrain(f"{request.data['start']}", f"{request.data['finish']}", f"{request.data['date']}")
 
     if request.method == 'POST':
-        return Response({'data': mas}, status=status.HTTP_201_CREATED)
+        return Response({'data': mas, 'data_train': mas2}, status=status.HTTP_201_CREATED)
 
 
 def getTicketsAvia(start, finish, date):
@@ -35,9 +34,6 @@ def getTicketsAvia(start, finish, date):
         "finish": []
     }
     try:
-
-
-
         driver.get(f"https://www.aviasales.ru/search/{dictOfCity.get(start)[0]}{date}{dictOfCity.get(finish)[0]}1?payment_method=all")
 
         # driver.get(f"https://www.aviasales.ru/search/{dictOfCity.get(start)}{date}{dictOfCity.get(finish)}1?payment_method=all")
@@ -54,7 +50,7 @@ def getTicketsAvia(start, finish, date):
                 .find_element(By.CLASS_NAME, "segment-route__date").text
             finishDate = item.find_element(By.CLASS_NAME, "destination") \
                 .find_element(By.CLASS_NAME, "segment-route__date").text
-            link = f"https://www.aviasales.ru/search/{dictOfCity.get(start)}{date}{dictOfCity.get(finish)}1?payment_method = all"
+            link = f"https://www.aviasales.ru/search/{dictOfCity.get(start)[0]}{date}{dictOfCity.get(finish)[0]}1?payment_method = all"
 
             mas_item.append({'price': price, 'startTime': startTime, 'finishTime': finishTime, 'startDate': startDate, 'finishDate': finishDate, 'link': link})
 
@@ -62,46 +58,39 @@ def getTicketsAvia(start, finish, date):
 
     except Exception as ex:
         print(ex)
-        print("________fgwgw_________"*6)
     finally:
         driver.close()
         driver.quit()
 
-#
-# def getTicketsTrain(start,finish,date):
-#     date = f'2022-{date[-2:]}-{date[:2]}'
-#     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-#     try:
-#         print("_@#$_"*20)
-#         print(f"https://ticket.rzd.ru/searchresults/v/1/{dictOfCity.get(start)[1]}/{dictOfCity.get(finish)[1]}/{date}")
-#         driver.get(f"https://ticket.rzd.ru/searchresults/v/1/{dictOfCity.get(start)[1]}/{dictOfCity.get(finish)[1]}/{date}")
-#         # driver.get(f"https://www.aviasales.ru/search/{dictOfCity.get(start)}{date}{dictOfCity.get(finish)}1?payment_method=all")
-#         time.sleep(3)
-#         mas_item = []
-#         items = driver.find_elements(By.CLASS_NAME, "card__body")
-#         for item in items:
-#             price = item.find_element(By.CLASS_NAME, "item__sum")[0].text
-#             # startTime = item.find_element(By.CLASS_NAME, "origin")\
-#             #     .find_element(By.CLASS_NAME, "segment-route__time").text
-#             # finishTime = item.find_element(By.CLASS_NAME, "destination")\
-#             #     .find_element(By.CLASS_NAME, "segment-route__time").text
-#             # startDate = item.find_element(By.CLASS_NAME, "origin") \
-#             #     .find_element(By.CLASS_NAME, "segment-route__date").text
-#             # finishDate = item.find_element(By.CLASS_NAME, "destination") \
-#             #     .find_element(By.CLASS_NAME, "segment-route__date").text
-#             # link = f"https://www.aviasales.ru/search/{dictOfCity.get(start)}{date}{dictOfCity.get(finish)}1?payment_method = all"
-#             print("_4_5_"*20)
-#             print(price)
-#             # mas_item.append({'price': price, 'startTime': startTime, 'finishTime': finishTime, 'startDate': startDate, 'finishDate': finishDate, 'link': link})
-#
-#         return mas_item
-#
-#     except Exception as ex:
-#         print(ex)
-#         print("________fgwgw_________"*6)
-#     finally:
-#         driver.close()
-#         driver.quit()
+
+def getTicketsTrain(start,finish,date):
+    date = f'2022-{date[-2:]}-{date[:2]}'
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    try:
+        driver.get(f"https://ticket.rzd.ru/searchresults/v/1/{dictOfCity.get(start)[1]}/{dictOfCity.get(finish)[1]}/{date}")
+        # driver.get(f"https://www.aviasales.ru/search/{dictOfCity.get(start)}{date}{dictOfCity.get(finish)}1?payment_method=all")
+        time.sleep(5)
+        mas_item = []
+        items = driver.find_elements(By.CLASS_NAME, "card__body")
+        for item in items:
+            price = item\
+                .find_element(By.CLASS_NAME, "tst-searchTransport-other-cardItemclass-0")\
+                .find_elements(By.CLASS_NAME, "item__sum")[0].text
+            startTime = item.find_element(By.CLASS_NAME, "card-route__main-row")\
+                .find_elements(By.CLASS_NAME, "card-route__time")[0].text
+            finishTime = item.find_element(By.CLASS_NAME, "card-route__main-row")\
+                .find_elements(By.CLASS_NAME, "card-route__time")[1].text
+            link = f"https://ticket.rzd.ru/searchresults/v/1/{dictOfCity.get(start)[1]}/{dictOfCity.get(finish)[1]}/{date}"
+
+            mas_item.append({'price': price, 'startTime': startTime, 'finishTime': finishTime, 'startDate': f'{date[-2:]}-{date[5:7]}-2022', 'finishDate': f'{date[-2:]}-{date[5:7]}-2022', 'link': link})
+        return mas_item
+
+    except Exception as ex:
+        print(ex)
+    finally:
+        driver.close()
+        driver.quit()
+
 
 
 dictOfCity = {
